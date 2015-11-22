@@ -123,6 +123,7 @@ function showToggleButton(show) {
 var lastElemChecked, lastRenderable;
 function setToggleButtonVisibility(elem) {
   var renderable = false;
+  var containsMarkdown = false;
 
   // Assumption: An element does not change renderability.
   if (elem === lastElemChecked) {
@@ -138,6 +139,8 @@ function setToggleButtonVisibility(elem) {
     elem.ownerDocument.addEventListener('focus', focusChange, true);
 
     renderable = markdownHere.elementCanBeRendered(elem);
+    containsMarkdown = markdownHere.elementHasRenderedMarkdown(elem);
+    console.error("ContainsMarkdown is " + containsMarkdown);
   }
 
   if (renderable !== lastRenderable) {

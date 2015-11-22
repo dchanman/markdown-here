@@ -527,6 +527,36 @@ function unrenderMarkdown(wrapperElem) {
   Utils.saferSetOuterHTML(wrapperElem, originalMdHtml);
 }
 
+function elementHasRenderedMarkdown(element) {
+  var wrappers, outerWrapper, range;
+
+  // Look for existing rendered-Markdown wrapper to revert.
+  outerWrapper = findMarkdownHereWrapper(element);
+  if (outerWrapper) {
+    // There's a wrapper above us.
+    wrappers = [outerWrapper];
+  }
+  else {
+    // Are there wrappers in our selection?
+
+    range = getOperationalRange(element);
+
+    if (!range) {
+      return Utils.getMessage('nothing_to_render');
+    }
+
+    // Look for wrappers in the range under consideration.
+    wrappers = findMarkdownHereWrappersInRange(range);
+  }
+
+  if (wrappers && wrappers.length > 0) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
 // Exported function.
 // The context menu handler. Does the rendering or unrendering, depending on the
 // state of the email compose element and the current selection.
@@ -624,6 +654,7 @@ function markdownHere(document, markdownRenderer, logger, renderComplete) {
 // We also export a couple of utility functions
 markdownHere.findFocusedElem = findFocusedElem;
 markdownHere.elementCanBeRendered = elementCanBeRendered;
+markdownHere.elementHasRenderedMarkdown = elementHasRenderedMarkdown;
 
 var EXPORTED_SYMBOLS = ['markdownHere'];
 
