@@ -89,17 +89,34 @@ chrome.extension.onMessage.addListener(function(request, sender, responseCallbac
   }
   else if (request.action === 'show-toggle-button') {
     if (request.show) {
-      chrome.browserAction.enable(sender.tab.id);
-      chrome.browserAction.setTitle({
-        title: Utils.getMessage('toggle_button_tooltip'),
-        tabId: sender.tab.id });
-      chrome.browserAction.setIcon({
-        path: {
-          19: Utils.getLocalURL('/common/images/icon19-button-monochrome.png'),
-          38: Utils.getLocalURL('/common/images/icon38-button-monochrome.png')
-        },
-        tabId: sender.tab.id });
-      return false;
+      // Display the coloured MarkdownHere icon if we have rendered Markdown
+      if (request.containsRenderedMarkdown) {
+        chrome.browserAction.enable(sender.tab.id);
+        chrome.browserAction.setTitle({
+          title: Utils.getMessage('toggle_button_tooltip'),
+          tabId: sender.tab.id });
+        chrome.browserAction.setIcon({
+          path: {
+            19: Utils.getLocalURL('/common/images/icon19-button.png'),
+            38: Utils.getLocalURL('/common/images/icon38-button.png')
+          },
+          tabId: sender.tab.id });
+        return false;
+      }
+      // Display the monochrome MarkdownHere icon if we have nonrendered Markdown
+      else {
+        chrome.browserAction.enable(sender.tab.id);
+        chrome.browserAction.setTitle({
+          title: Utils.getMessage('toggle_button_tooltip'),
+          tabId: sender.tab.id });
+        chrome.browserAction.setIcon({
+          path: {
+            19: Utils.getLocalURL('/common/images/icon19-button-monochrome.png'),
+            38: Utils.getLocalURL('/common/images/icon38-button-monochrome.png')
+          },
+          tabId: sender.tab.id });
+        return false;
+      }
     }
     else {
       chrome.browserAction.disable(sender.tab.id);

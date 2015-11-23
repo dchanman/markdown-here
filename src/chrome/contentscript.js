@@ -113,17 +113,17 @@ function markdownRenderComplete(elem, rendered) {
 
 
 // At this time, only this function differs between Chrome and Firefox.
-function showToggleButton(show) {
+function showToggleButton(show, containsRenderedMarkdown) {
   Utils.makeRequestToPrivilegedScript(
     document,
-    { action: 'show-toggle-button', show: show });
+    { action: 'show-toggle-button', show: show, containsRenderedMarkdown: containsRenderedMarkdown });
 }
 
 
-var lastElemChecked, lastRenderable;
+var lastElemChecked, lastRenderable, lastcontainsRenderedMarkdown;
 function setToggleButtonVisibility(elem) {
   var renderable = false;
-  var containsMarkdown = false;
+  var containsRenderedMarkdown = false;
 
   // Assumption: An element does not change renderability.
   if (elem === lastElemChecked) {
@@ -139,13 +139,14 @@ function setToggleButtonVisibility(elem) {
     elem.ownerDocument.addEventListener('focus', focusChange, true);
 
     renderable = markdownHere.elementCanBeRendered(elem);
-    containsMarkdown = markdownHere.elementHasRenderedMarkdown(elem);
-    console.error("ContainsMarkdown is " + containsMarkdown);
+    containsRenderedMarkdown = markdownHere.elementHasRenderedMarkdown(elem);
+    console.error("containsRenderedMarkdown is " + containsRenderedMarkdown);
   }
 
-  if (renderable !== lastRenderable) {
-    showToggleButton(renderable);
+  if (renderable !== lastRenderable || containsRenderedMarkdown !== lastcontainsRenderedMarkdown) {
+    showToggleButton(renderable, containsRenderedMarkdown);
     lastRenderable = renderable;
+    lastcontainsRenderedMarkdown = containsRenderedMarkdown;
   }
 }
 
