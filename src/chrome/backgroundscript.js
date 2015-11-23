@@ -89,7 +89,6 @@ chrome.extension.onMessage.addListener(function(request, sender, responseCallbac
   }
   else if (request.action === 'show-toggle-button') {
     if (request.show) {
-      // Display the coloured MarkdownHere icon if we have rendered Markdown
       if (request.containsRenderedMarkdown) {
         chrome.browserAction.enable(sender.tab.id);
         chrome.browserAction.setTitle({
@@ -103,7 +102,6 @@ chrome.extension.onMessage.addListener(function(request, sender, responseCallbac
           tabId: sender.tab.id });
         return false;
       }
-      // Display the monochrome MarkdownHere icon if we have nonrendered Markdown
       else {
         chrome.browserAction.enable(sender.tab.id);
         chrome.browserAction.setTitle({

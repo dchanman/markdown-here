@@ -82,6 +82,7 @@ function requestMarkdownConversion(elem, range, callback) {
 
 // When rendering (or unrendering) completed, do our interval checks.
 function markdownRenderComplete(elem, rendered) {
+  forceRecheckToggleButtonVisibility();
   intervalCheck(elem);
 }
 
@@ -121,11 +122,22 @@ function showToggleButton(show, containsRenderedMarkdown) {
 
 
 var lastElemChecked, lastRenderable, lastcontainsRenderedMarkdown;
+
+// Forces the next call for setToggleButtonVisibility to check
+// for rendered Markdown.
+function forceRecheckToggleButtonVisibility() {
+    lastElemChecked = null;
+}
+
+
 function setToggleButtonVisibility(elem) {
   var renderable = false;
   var containsRenderedMarkdown = false;
 
   // Assumption: An element does not change renderability.
+  // If the element's contents changes with respect to having rendered Markdown,
+  // we can call forceRecheckToggleButtonVisibility() above. Otherwise we
+  // save on performance by skipping these checks on an interval basis.
   if (elem === lastElemChecked) {
     return;
   }
