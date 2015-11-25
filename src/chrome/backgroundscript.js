@@ -100,6 +100,8 @@ chrome.extension.onMessage.addListener(function(request, sender, responseCallbac
             38: Utils.getLocalURL('/common/images/icon38-button.png')
           },
           tabId: sender.tab.id });
+        chrome.browserAction.setBadgeText({text: "", tabId: sender.tab.id});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#7a1ea1", tabId: sender.tab.id});
         return false;
       }
       else {
@@ -113,6 +115,8 @@ chrome.extension.onMessage.addListener(function(request, sender, responseCallbac
             38: Utils.getLocalURL('/common/images/icon38-button-monochrome.png')
           },
           tabId: sender.tab.id });
+        chrome.browserAction.setBadgeText({text: "R", tabId: sender.tab.id});
+        chrome.browserAction.setBadgeBackgroundColor({color: "#7a1ea1", tabId: sender.tab.id});
         return false;
       }
     }
@@ -127,6 +131,8 @@ chrome.extension.onMessage.addListener(function(request, sender, responseCallbac
           38: Utils.getLocalURL('/common/images/icon38-button-disabled.png')
         },
         tabId: sender.tab.id });
+      chrome.browserAction.setBadgeText({text: "", tabId: sender.tab.id});
+      chrome.browserAction.setBadgeBackgroundColor({color: "#7a1ea1", tabId: sender.tab.id});
       return false;
     }
   }
