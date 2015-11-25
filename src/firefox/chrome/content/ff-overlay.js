@@ -270,7 +270,7 @@ var markdown_here = {
   setupButton: function() {
 
     // At this time, only this function differs between Chrome and Firefox.
-    function showToggleButton(show) {
+    function showToggleButton(show, containsRenderedMarkdown) {
       var btn, tooltipString;
 
       // Page action button
@@ -284,6 +284,12 @@ var markdown_here = {
       if (btn) {
         if (show) {
           btn.removeAttribute('disabled');
+
+          if (containsRenderedMarkdown) {
+            btn.setAttribute('containsRenderedMarkdown', 'true');
+          } else {
+            btn.removeAttribute('containsRenderedMarkdown');
+          }
 
           tooltipString = markdown_here.imports.Utils.getMessage('toggle_button_tooltip');
           if (tooltipString) {
@@ -304,8 +310,12 @@ var markdown_here = {
     var lastElemChecked, lastRenderable;
     function setToggleButtonVisibility(elem) {
       var renderable = false;
+      var containsRenderedMarkdown = false;
 
       // Assumption: An element does not change renderability.
+      // If the element's contents changes with respect to having rendered Markdown,
+      // we can call forceRecheckToggleButtonVisibility() above. Otherwise we
+      // save on performance by skipping these checks on an interval basis.
       if (elem === lastElemChecked) {
         return;
       }
@@ -318,12 +328,15 @@ var markdown_here = {
         // arguments.
         elem.ownerDocument.addEventListener('focus', focusChange, true);
 
-        renderable = markdown_here.imports.markdownHere.elementCanBeRendered(elem);
+        renderable = markdownHere.elementCanBeRendered(elem);
+        containsRenderedMarkdown = markdownHere.elementHasRenderedMarkdown(elem);
+        console.error("containsRenderedMarkdown is " + containsRenderedMarkdown);
       }
 
-      if (renderable !== lastRenderable) {
-        showToggleButton(renderable);
+      if (renderable !== lastRenderable || containsRenderedMarkdown !== lastcontainsRenderedMarkdown) {
+        showToggleButton(renderable, containsRenderedMarkdown);
         lastRenderable = renderable;
+        lastcontainsRenderedMarkdown = containsRenderedMarkdown;
       }
     }
 

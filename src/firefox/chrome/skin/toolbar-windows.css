@@ -10,6 +10,10 @@
     width: 32px;
   }
 
+  toolbar[iconsize="small"] #toolbarButton-markdown_here[containsRenderedMarkdown="true"] > .toolbarbutton-icon {
+    width: 32px;
+  }
+
   toolbar[iconsize="small"] #toolbarButton-markdown_here[disabled="true"] > .toolbarbutton-icon {
     width: 32px;
   }
