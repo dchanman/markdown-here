@@ -16,6 +16,6 @@
 * [/src/common/test/markdown-here-test.js](https://github.com/dchanman/markdown-here/blob/master/src/common/test/markdown-here-test.js)
 	* Created new test suite for our new function
 
-You can see our full pull request at this link: https://github.com/adam-p/markdown-here/pull/315
+You can see our full pull request at this link: https://github.com/adam-p/markdown-here/pull/319
 
-(Note that our pull request is now closed. This is because we were originally pull requesting from master->adam_p. We had to change our base branch (master) and remake a pull request so that we could exclude this README from the pull request)
+(Note that our [previous pull request](https://github.com/adam-p/markdown-here/pull/315) is now closed. This is because we were originally pull requesting from master->adam_p. We had to remake a pull request so that we could exclude this README from the pull request)
